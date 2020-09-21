@@ -45,6 +45,6 @@ function validateCpf(validCpf, cpfInformed) {
 function invalidCpf(msg) {
     cpf.style.transition = ".5s"
     cpf.style.boxShadow = "0px 0px 10px crimson"
-    alert(msg)
+    //alert(msg)
     console.log(msg)
 }
