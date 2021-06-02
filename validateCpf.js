@@ -1,50 +1,58 @@
 const cpf = document.querySelector("#cpf")
+const helper = document.querySelector(".help-box-result")
 
 cpf.addEventListener("keyup", e => {
+
     const vetCpf = cpf.value.split("")
     const onlyNumbers = vetCpf.filter(value => !isNaN(value))
     const isComplete = onlyNumbers.length == 11
 
-    if(isComplete) {
-        const firstNineNumbers = onlyNumbers.slice(0, -2)
-        const removeDuplicates = onlyNumbers.filter((value, pos) => onlyNumbers.indexOf(value) == pos)
-        const areAllTheSame = removeDuplicates.length == 1
-        cpf.style.boxShadow = "0px 0px 0px black"
+    if(!isComplete) return
 
-        if(!areAllTheSame) {
-            const firstCheckDigit = getCheckDigit(firstNineNumbers, 10)
-            firstNineNumbers.push(firstCheckDigit)
-            const secondCheckDigit = getCheckDigit(firstNineNumbers, 11)
-            firstNineNumbers.push(secondCheckDigit)
+    const firstNineNumbers = onlyNumbers.slice(0, -2)
 
-            validateCpf(firstNineNumbers, onlyNumbers);
+    const removeDuplicates = onlyNumbers.filter((value, pos) => onlyNumbers.indexOf(value) == pos)
+    const areAllTheSame = removeDuplicates.length == 1
 
-        } else {
-            invalidCpf("INVÁLIDO, NÚMEROS IGUAIS")
-        }
+    if(!areAllTheSame) {
+        
+        const firstCheckDigit = getCheckDigit(firstNineNumbers, 10)
+        firstNineNumbers.push(firstCheckDigit)
+        const secondCheckDigit = getCheckDigit(firstNineNumbers, 11)
+        firstNineNumbers.push(secondCheckDigit)
+
+        validateCpf(firstNineNumbers, onlyNumbers);
+
+    } else {
+        showMessageResult("INVÁLIDO, NÚMEROS IGUAIS", ["invalid"])
     }
+
 })
 
 function getCheckDigit(firstNineNumbers, subtr) {
+
     const multiplyCpfNumbersWithVector = firstNineNumbers.map((value, pos) => value * (subtr - pos))
     const sumNumbers = multiplyCpfNumbersWithVector.reduce((value, acc) => value + acc, 0)
     const restOfDivisionByEleven = sumNumbers % 11
     const checkDigit = (restOfDivisionByEleven < 2) ? 0 : (11 - restOfDivisionByEleven)
 
     return checkDigit
+
 }
 
 function validateCpf(validCpf, cpfInformed) {
-    if(validCpf.join("") === cpfInformed.join("")) {
-        console.log("CPF VÁLIDO")
-    } else {
-        invalidCpf("CPF INVÁLIDO")
-    }
+
+    validCpf.join("") === cpfInformed.join("") ?
+        showMessageResult("CPF VÁLIDO", ["valid"]) : showMessageResult("CPF INVÁLIDO", ["invalid"])
+
 }
 
-function invalidCpf(msg) {
-    cpf.style.transition = ".5s"
-    cpf.style.boxShadow = "0px 0px 10px crimson"
-    //alert(msg)
-    console.log(msg)
+function showMessageResult(msg, classes) {
+
+    cpf.classList.remove("valid", "invalid")
+
+    helper.innerText = msg
+
+    classes.forEach(className => cpf.classList.add(className))
+
 }
