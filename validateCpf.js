@@ -5,7 +5,7 @@ cpf.addEventListener("keyup", e => {
 
     const vetCpf = cpf.value.split("")
     const onlyNumbers = vetCpf.filter(value => !isNaN(value))
-    const isComplete = onlyNumbers.length == 11
+    const isComplete = onlyNumbers.length >= 11
 
     if(!isComplete) return
 
