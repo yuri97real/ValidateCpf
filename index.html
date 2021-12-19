@@ -8,7 +8,12 @@
 </head>
 <body>
     <input type="tel" id="cpf" placeholder="CPF" autocomplete="off">
-    <div class="help-box-result"></div>
+
     <script src="validateCpf.js"></script>
+
+    <script>
+        const cpf = document.querySelector("#cpf")
+        new ValidateCpf(cpf)
+    </script>
 </body>
 </html>
