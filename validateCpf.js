@@ -2,7 +2,7 @@ class ValidateCPF {
 
     constructor(cpf) {
 
-        this.cpf = cpf
+        this.cpf = document.querySelector(cpf)
         this.cpf.addEventListener("keyup", () => this.validate())
 
     }
